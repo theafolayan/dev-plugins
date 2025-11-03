@@ -1,6 +1,6 @@
 import { useDevToolsPluginClient, type EventSubscription } from 'expo/devtools';
 import { useCallback, useEffect } from 'react';
-import { MMKV } from 'react-native-mmkv';
+import { createMMKV } from 'react-native-mmkv';
 
 import { Method } from '../methods';
 
@@ -16,7 +16,7 @@ import { Method } from '../methods';
  */
 export function useMMKVDevTools({
   errorHandler,
-  storage = new MMKV(),
+  storage = createMMKV();
 }: {
   errorHandler?: (error: Error) => void;
   storage?: MMKV;
@@ -83,7 +83,7 @@ export function useMMKVDevTools({
       subscriptions.push(
         on('remove', async ({ key }) => {
           if (key !== undefined) {
-            storage.delete(key);
+            storage.remove(key);
           }
         })
       );
